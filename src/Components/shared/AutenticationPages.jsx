@@ -6,7 +6,7 @@ export default function AutenticationPages(props) {
     return (
         <Container>
             <img src={logo} alt="Logo da aplicação Track It" />
-            <Forms onSubmit={props.onSubmit}>
+            <Forms onSubmit={props.onSubmit} load={props.load}>
                 {props.children}
             </Forms>
             <Link to={props.link}><p>{props.p}</p></Link>
@@ -42,7 +42,7 @@ const Forms = styled.form`
     margin-bottom: 19px;
 
     input {
-        background-color: #FFFFFF;
+        background-color: ${props => props.load ? "#F2F2F2" : "#FFFFFF"};
         border: 1px solid #D4D4D4;
         width: 303px;
         height: 45px;
@@ -50,15 +50,23 @@ const Forms = styled.form`
         margin-bottom: 6px;
         padding-left: 10px;
         ::placeholder {
-            color: #DBDBDB;
+            color:  ${props => props.load ? "#AFAFAF" : "#DBDBDB"};
             font-size: 20px;
             opacity: 1;
         }
     }
 
-    [type="submit"] {
-            background-color: #52B6FF;
-            color: #FFFFFF;
-            font-size: 21px;
-        }
+    button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 303px;
+        height: 45px;
+        border-radius: 5px;
+        border: 1px solid #D4D4D4;
+        background-color: #52B6FF;
+        color: #FFFFFF;
+        font-size: 21px;
+        opacity: ${props => props.load ? "0.7" : "1"};
+    }
     `;

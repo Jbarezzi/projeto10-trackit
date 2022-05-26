@@ -1,10 +1,11 @@
-import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 import { register } from "../../Service/Requisitions";
 import AutenticationPages from "../shared/AutenticationPages";
 
 export default function SignUp() {
+    const [load, setLoad] = useState(false);
     const navigate = useNavigate();
     const [newUser, setNewUser] = useState({
         email: "",
@@ -15,42 +16,53 @@ export default function SignUp() {
 
     function handleSubmit(e) {
         e.preventDefault();
+        setLoad(true);
         const promise = register(newUser);
         promise.then(() => {
+            setLoad(false);
             alert("Cadastrado com Sucesso");
             navigate("/", {replace: true})
         });
-        promise.catch(() => alert("Aconteceu um erro durante o cadastro.\nTente novamente"));
+        promise.catch(() => {
+            setLoad(false);
+            alert("Aconteceu um erro durante o cadastro.\nTente novamente")
+        });
     }
 
     return(
-    <AutenticationPages p="Já tem uma conta? Faça login!" link="/" onSubmit={handleSubmit}>    
+    <AutenticationPages p="Já tem uma conta? Faça login!" link="/" onSubmit={handleSubmit} load={load}>    
             <input 
                 type="email" 
                 required 
                 placeholder="email" 
-                value={newUser.email} 
+                value={newUser.email}
+                disabled={load} 
                 onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} />
             <input 
                 type="password" 
                 required 
                 placeholder="senha" 
-                value={newUser.password} 
+                value={newUser.password}
+                disabled={load} 
                 onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} />
             <input 
                 type="text" 
                 required 
                 placeholder="nome" 
-                value={newUser.name} 
+                value={newUser.name}
+                disabled={load} 
                 onChange={(e) => setNewUser({ ...newUser, name: e.target.value })} />
             <input 
                 type="url" 
                 required 
                 placeholder="foto" 
                 pattern="(http)?s?:?(\/\/.*\.(?:png|jpg|jpeg|gif|png|svg))" 
-                value={newUser.image} 
+                value={newUser.image}
+                disabled={load} 
                 onChange={(e) => setNewUser({ ...newUser, image: e.target.value })} />
-            <input type="submit" value="Cadastrar" />
+            <button type="submit" disabled={load}>
+                {load ? <ThreeDots color="#FFFFFF" width="51" height="13" /> : "Cadastrar"}
+            </button>
     </AutenticationPages>
     );
 }
