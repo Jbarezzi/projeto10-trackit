@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../Service/Requisitions";
 import { ThreeDots } from "react-loader-spinner";
+import { login } from "../../Service/Requisitions";
+import UserContext from "../../contexts/UserContext";
 import AutenticationPages from "../shared/AutenticationPages";
 
 export default function Login() {
     const navigate = useNavigate();
+    const { setUser } = useContext(UserContext);
     const [load, setLoad] = useState(false);
     const [userLogin, setUserLogin] = useState({
         email: "",
@@ -17,6 +19,7 @@ export default function Login() {
         const promise = login(userLogin);
         promise.then((response) => {
             setLoad(false);
+            setUser(response.data);
             navigate("/hoje", { replace: true });
         });
         promise.catch(() => {
