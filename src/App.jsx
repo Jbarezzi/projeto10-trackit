@@ -6,6 +6,7 @@ import UserContext from "./contexts/UserContext";
 import Login from "./Components/LoginAndSignUp/Login";
 import SignUp from "./Components/LoginAndSignUp/SignUp";
 import Today from "./Components/MainPage/Today";
+import Habits from "./Components/MainPage/Habits/Habits";
 
 export default function App() {
     const [user, setUser] = useState("");
@@ -17,7 +18,7 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/cadastro" element={<SignUp />} />
-                    {/* <Route path="/habitos" element={} /> */}
+                    <Route path="/habitos" element={<Habits />} />
                     <Route path="/hoje" element={<Today />} />
                     {/* <Route path="/historico" element={} /> */}
                 </Routes>
