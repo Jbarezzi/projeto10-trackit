@@ -4,6 +4,7 @@ import "dayjs/locale/pt-br"
 import styled from "styled-components";
 import { getTodayHabits } from "../../../Service/Requisitions";
 import UserContext from "../../../contexts/UserContext";
+import ProgressContext from "../../../contexts/ProgressContext";
 import { useContext } from "react";
 import TrackedHabit from "./TrackedHabit";
 import Body from "../../shared/Body";
@@ -12,6 +13,7 @@ import Header from "../../shared/Header";
 
 export default function Today() {
     const { user } = useContext(UserContext);
+    const {percentage, setPercentage} = useContext(ProgressContext);
     const [reload, setReload] = useState(false);
     const [todayHabits, setTodayHabits] = useState([]);
     useEffect(() => {
@@ -33,18 +35,19 @@ export default function Today() {
             "Sabado",
             ],
         });
-
+        const checkedHabits = todayHabits.filter(habit => habit.done);
+        setPercentage(Math.round((checkedHabits.length/todayHabits.length)*100));
     return(
         <>
             <Header />
             <Body>
                 <Title>
                     <Date>{`${dayjs().locale('pt-br').format("dddd, DD/MM")}`}</Date>
-                    <p>Nenhum hábito concluído ainda</p>
+                    <Progress checkedHabits={checkedHabits.lenght}>{checkedHabits.length === 0 ? "Nenhum hábito concluído ainda" : `${percentage}% dos hábitos concluídos`}</Progress>
                 </Title>
                 <TodayHabits>
                     {todayHabits.length !== 0 ?
-                        todayHabits.map((habit, index) => <TrackedHabit habit={habit} key={index} reload={reload} setReload={setReload}/>)
+                        todayHabits.map((habit, index) => <TrackedHabit habit={habit} key={index} reload={reload} setReload={setReload} />)
                         :
                         ""}
                 </TodayHabits>
@@ -54,27 +57,13 @@ export default function Today() {
     );
 }
 
-const Container = styled.div`
-    
-    `;
-
 const TodayHabits = styled.div`
     margin-top: 28px;
-    margin-bottom: 110px;
     width: 100%;
     `;
 
 const Title = styled.div`
     width: 100%;
-    h2 {
-        color: #126BA5;
-        font-size: 23px;
-        margin-bottom: 5px;
-    }
-    p {
-        color: #BABABA;
-        font-size: 18px;
-    }
     `;
 
 const Date = styled.h2`
@@ -82,4 +71,9 @@ const Date = styled.h2`
     font-size: 23px;
     padding-top: 20px;
     margin-bottom: 5px;
+    `;
+
+const Progress = styled.p`
+    color: ${props => props.checkedHabits === 0 ?"#BABABA" : "#8FC549"};
+    font-size: 18px;
     `;

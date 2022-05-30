@@ -4,8 +4,6 @@ import { ThreeDots } from "react-loader-spinner";
 import { login } from "../../Service/Requisitions";
 import UserContext from "../../contexts/UserContext";
 import AutenticationPages from "../shared/AutenticationPages";
-import dayjs from "dayjs"
-import "dayjs/locale/pt-br"
 
 export default function Login() {
     const navigate = useNavigate();

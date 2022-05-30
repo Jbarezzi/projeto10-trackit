@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { useContext } from "react";
 import UserContext from "../../../contexts/UserContext";
+import ProgressContext from "../../../contexts/ProgressContext";
 import { checkHabit, uncheckHabit } from "../../../Service/Requisitions";
 
 export default function TrackedHabit(props) {
     const { user } = useContext(UserContext);
+    const { setPercentage } = useContext(ProgressContext);
     function toggleChecked() {
         if (props.habit.done === false) {
             const promise = checkHabit(user.token ,props.habit.id);
@@ -44,8 +46,8 @@ const Container = styled.div`
     border-radius: 5px;
     background-color: #FFFFFF;
     display: flex;
-    justify-content: space-around;
-    padding-top: 13px;
+    justify-content: space-between;
+    padding: 13px 13px 0 15px;
     margin-bottom: 10px;
     `;
 
