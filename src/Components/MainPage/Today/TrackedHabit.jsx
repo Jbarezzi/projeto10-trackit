@@ -1,13 +1,37 @@
 import styled from "styled-components";
+import { useContext } from "react";
+import UserContext from "../../../contexts/UserContext";
+import { checkHabit, uncheckHabit } from "../../../Service/Requisitions";
 
 export default function TrackedHabit(props) {
+    const { user } = useContext(UserContext);
+    function toggleChecked() {
+        if (props.habit.done === false) {
+            const promise = checkHabit(user.token ,props.habit.id);
+            promise.then(() => {
+                props.setReload(!props.reload);
+            });
+        } else {
+            const promise = uncheckHabit(user.token, props.habit.id);
+            promise.then(() => {
+                props.setReload(!props.reload);
+            });
+        }
+    }
+
     return (
         <Container>
             <Text>
                 <p>{props.habit.name}</p>
-                <p>Sequência atual: {props.habit.currentSequence} dias<br />Seu recorde: {props.habit.highestSequence} dias</p>
+                <p>
+                    Sequência atual:  <Current checked={props.habit.done}>{props.habit.currentSequence} dias</Current>
+                </p>
+                <br />
+                <p>
+                    Seu recorde: <Highest currentSequence={props.habit.currentSequence} highestSequence={props.habit.highestSequence}>{props.habit.highestSequence} dias</Highest>
+                </p>
             </Text>
-            <Button checked={props.habit.done}>
+            <Button checked={props.habit.done} onClick={toggleChecked}>
                 <ion-icon name="checkmark"></ion-icon>
             </Button>
         </Container>
@@ -35,9 +59,13 @@ const Text = styled.div`
         font-size: 20px;
         margin-bottom: 8px;
     }
+    p:nth-child(2) {
+        font-size: 13px;
+    }
     p:last-child {
         font-size: 13px;
     }
+
     `;
 
 const Button = styled.div`
@@ -55,4 +83,13 @@ const Button = styled.div`
         --ionicon-stroke-width: 85px;
         color: #FFFFFF;
     }
+    `;
+
+const Current = styled.span`
+        color: ${props => props.checked ? "#8FC549" : "#666666"};;
+    `;
+
+const Highest = styled.span`
+     font-size: 13px;
+     color: ${({currentSequence,  highestSequence}) => currentSequence === highestSequence && highestSequence !== 0 ? "#8FC549" : "#666666"};
     `;

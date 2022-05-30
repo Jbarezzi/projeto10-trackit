@@ -12,13 +12,14 @@ import Header from "../../shared/Header";
 
 export default function Today() {
     const { user } = useContext(UserContext);
+    const [reload, setReload] = useState(false);
     const [todayHabits, setTodayHabits] = useState([]);
     useEffect(() => {
         const promise = getTodayHabits(user.token);
         promise.then(response => {
             setTodayHabits(response.data);
         });
-    }, [user.token]);
+    }, [user.token, reload]);
 
     dayjs.extend(require("dayjs/plugin/updateLocale"));
     dayjs.updateLocale("pt-br", {
@@ -32,7 +33,7 @@ export default function Today() {
             "Sabado",
             ],
         });
-        
+
     return(
         <>
             <Header />
@@ -43,7 +44,7 @@ export default function Today() {
                 </Title>
                 <TodayHabits>
                     {todayHabits.length !== 0 ?
-                        todayHabits.map((habit, index) => <TrackedHabit habit={habit} key={index}/>)
+                        todayHabits.map((habit, index) => <TrackedHabit habit={habit} key={index} reload={reload} setReload={setReload}/>)
                         :
                         ""}
                 </TodayHabits>
