@@ -7,11 +7,11 @@ import { useEffect } from "react";
 export default function Header() {
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
-    // useEffect(() => {
-    //     if (user === "") {
-    //         navigate("/");
-    //     }
-    // }, [user, navigate]);
+    useEffect(() => {
+        if (user === "") {
+            navigate("/");
+        }
+    }, [user, navigate]);
     return(
         <Container>
             <h1>TrackIt</h1>

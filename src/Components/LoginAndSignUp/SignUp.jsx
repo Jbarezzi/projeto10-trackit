@@ -23,9 +23,9 @@ export default function SignUp() {
             alert("Cadastrado com Sucesso");
             navigate("/", {replace: true})
         });
-        promise.catch(() => {
+        promise.catch((error) => {
             setLoad(false);
-            alert("Aconteceu um erro durante o cadastro.\nTente novamente")
+            alert(error.response.data.message);
         });
     }
 
