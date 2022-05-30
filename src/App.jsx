@@ -5,7 +5,7 @@ import GlobalStyles from "./styles/GlobalStyles";
 import UserContext from "./contexts/UserContext";
 import Login from "./Components/LoginAndSignUp/Login";
 import SignUp from "./Components/LoginAndSignUp/SignUp";
-import Today from "./Components/MainPage/Today";
+import Today from "./Components/MainPage/Today/Today";
 import Habits from "./Components/MainPage/Habits/Habits";
 
 export default function App() {
