@@ -15,13 +15,14 @@ export default function TrackedHabit(props) {
 }
 
 const Container = styled.div`
-    width: 340px;
+    width: 100%;
     height: 94px;
     border-radius: 5px;
     background-color: #FFFFFF;
     display: flex;
     justify-content: space-around;
     padding-top: 13px;
+    margin-bottom: 10px;
     `;
 
 const Text = styled.div`
@@ -43,6 +44,7 @@ const Button = styled.div`
     width: 69px;
     height: 69px;
     background-color: ${props => props.checked ? "#8FC549" : "#EBEBEB"};
+    border: 1px solid #E7E7E7;
     border-radius: 5px;
     display: flex;
     justify-content: center;
