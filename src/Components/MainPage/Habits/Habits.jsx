@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState, useEffect, useContext } from "react";
 import UserContext from "../../../contexts/UserContext";
-import { getHabits } from "../../../Service/Requisitions";
+import { getHabits, deleteHabits } from "../../../Service/Requisitions";
 import Habit from "./Habit";
 import Footer from "../../shared/Footer";
 import Header from "../../shared/Header";
@@ -28,7 +28,7 @@ export default function Habits() {
     function deleteHabit(habit) {
         let resultado = window.confirm("Deseja realmente excluir esse hábito?");
         if (resultado === true) {
-            const promise = deleteHabit(user.token, habit.id);
+            const promise = deleteHabits(user.token, habit.id);
             promise.then(() => {
                 setReload(!reload);
             });
